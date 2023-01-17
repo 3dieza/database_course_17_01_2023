@@ -3,7 +3,9 @@ package org.example;
 //import java.io.FileInputStream;
 //import java.io.FileNotFoundException;
 //import java.util.Calendar;
+
 import java.sql.*;
+
 public class Main {
     private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
     private static final String USERNAME = "root";
@@ -14,7 +16,7 @@ public class Main {
     private static final String GET_ALL = "SELECT * FROM dish";
 
     public static void main(String[] args) {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement preparedStatement;
 
         try {
@@ -52,8 +54,17 @@ public class Main {
 //        } catch (SQLException | FileNotFoundException e) {
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                    System.out.println("Соединение с БД закрыто");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
         }
-
-
     }
 }
